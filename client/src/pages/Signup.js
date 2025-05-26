@@ -1,8 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import "@mui/material/styles";
-import { Container, Box, Typography, TextField, Button, Paper, Link as MuiLink } from "@mui/material";
+import { Container, Typography, TextField, Button, Paper, Link as MuiLink } from "@mui/material";
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -15,7 +14,6 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simple client-side validation
     if (!formData.name.trim() || !formData.email.trim() || !formData.password.trim()) {
       alert("All fields except bio are required.");
       return;

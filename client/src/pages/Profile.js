@@ -12,13 +12,11 @@ export default function Profile() {
   const [suggested, setSuggested] = useState([]);
   const [following, setFollowing] = useState([]);
 
-  // Fetch own posts
   const fetchPosts = async () => {
     const res = await axios.get(`http://localhost:5000/api/posts/${userId}`);
     setPosts(res.data);
   };
 
-  // Fetch timeline posts (from followed users)
   const fetchTimeline = async () => {
     const res = await axios.get("http://localhost:5000/api/social/timeline", {
       headers: { Authorization: `Bearer ${token}` }
@@ -26,7 +24,6 @@ export default function Profile() {
     setTimeline(res.data);
   };
 
-  // Fetch suggested users to follow
   const fetchSuggested = async () => {
     const res = await axios.get("http://localhost:5000/api/social/explore", {
       headers: { Authorization: `Bearer ${token}` }
@@ -34,7 +31,6 @@ export default function Profile() {
     setSuggested(res.data);
   };
 
-  // Fetch following list
   const fetchMe = async () => {
     const res = await axios.get(`http://localhost:5000/api/users/${userId}`);
     setFollowing(res.data.following || []);
@@ -47,7 +43,6 @@ export default function Profile() {
     fetchMe();
   }, []);
 
-  // Create a new post
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios.post("http://localhost:5000/api/posts", { text: newPost, userId });
@@ -56,7 +51,6 @@ export default function Profile() {
     fetchTimeline();
   };
 
-  // Follow/unfollow logic
   const handleFollow = async (id) => {
     await axios.post(`http://localhost:5000/api/social/follow/${id}`, {}, {
       headers: { Authorization: `Bearer ${token}` }

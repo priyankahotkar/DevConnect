@@ -11,7 +11,6 @@ export default function Timeline() {
   const token = localStorage.getItem("token");
   const myId = localStorage.getItem("userId");
 
-  // Fetch timeline posts and suggested users
   useEffect(() => {
     const fetchTimeline = async () => {
       const res = await axios.get("http://localhost:5000/api/social/timeline", {
@@ -34,25 +33,21 @@ export default function Timeline() {
     fetchMe();
   }, []);
 
-  // Create a new post
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios.post("http://localhost:5000/api/posts", { text: newPost, userId: myId });
     setNewPost("");
-    // Refresh timeline
     const res = await axios.get("http://localhost:5000/api/social/timeline", {
       headers: { Authorization: `Bearer ${token}` }
     });
     setPosts(res.data);
   };
 
-  // Follow/unfollow logic
   const handleFollow = async (id) => {
     await axios.post(`http://localhost:5000/api/social/follow/${id}`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setFollowing([...following, id]);
-    // Refresh suggested users
     const res = await axios.get("http://localhost:5000/api/social/explore", {
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -63,7 +58,6 @@ export default function Timeline() {
       headers: { Authorization: `Bearer ${token}` }
     });
     setFollowing(following.filter(f => f !== id));
-    // Refresh suggested users
     const res = await axios.get("http://localhost:5000/api/social/explore", {
       headers: { Authorization: `Bearer ${token}` }
     });

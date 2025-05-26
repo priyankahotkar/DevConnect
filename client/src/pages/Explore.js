@@ -29,7 +29,6 @@ export default function Explore() {
       headers: { Authorization: `Bearer ${token}` }
     });
     setFollowing([...following, id]);
-    // Refresh users and following to update UI
     const res = await axios.get("http://localhost:5000/api/social/explore", {
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -42,7 +41,6 @@ export default function Explore() {
       headers: { Authorization: `Bearer ${token}` }
     });
     setFollowing(following.filter(f => f !== id));
-    // Refresh users and following to update UI
     const res = await axios.get("http://localhost:5000/api/social/explore", {
       headers: { Authorization: `Bearer ${token}` }
     });

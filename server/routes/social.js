@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
-// Middleware to verify JWT
 function auth(req, res, next) {
   const token = req.headers["authorization"]?.split(" ")[1];
   if (!token) return res.status(401).json({ error: "No token provided" });
@@ -57,7 +56,7 @@ router.get("/timeline", auth, async (req, res) => {
   }
 });
 
-// Explore users (list all except self)
+// Explore users 
 router.get("/explore", auth, async (req, res) => {
   try {
     const users = await User.find({ _id: { $ne: req.userId } }, "_id name bio");

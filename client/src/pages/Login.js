@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import "@mui/material/styles";
-import { Container, Box, Typography, TextField, Button, Paper } from "@mui/material";
+import { Container, Typography, TextField, Button, Paper } from "@mui/material";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
