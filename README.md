@@ -72,7 +72,7 @@ DevConnect/
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/DevConnect.git
+git clone https://github.com/priyankahotkar/DevConnect.git
 cd DevConnect
 
 Backend Setup
