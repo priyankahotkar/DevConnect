@@ -13,7 +13,7 @@ export default function Profile() {
   const [following, setFollowing] = useState([]);
 
   const fetchPosts = async () => {
-    const res = await axios.get(`http://localhost:5000/api/posts/${userId}`);
+    const res = await axios.get(`http://localhost:5000/api/posts/user/${userId}`);
     setPosts(res.data);
   };
 
@@ -45,7 +45,9 @@ export default function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:5000/api/posts", { text: newPost, userId });
+    await axios.post("http://localhost:5000/api/posts", { text: newPost, userId }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
     setNewPost("");
     fetchPosts();
     fetchTimeline();
@@ -70,6 +72,19 @@ export default function Profile() {
 
   return (
     <Container maxWidth="md">
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, mb: 2 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            localStorage.removeItem("userId");
+            localStorage.removeItem("token");
+            window.location.href = "/login";
+          }}
+        >
+          Logout
+        </Button>
+      </Box>
       <Paper elevation={3} sx={{ p: 4, mt: 8 }}>
         <Typography variant="h5" align="center" gutterBottom>Your Profile</Typography>
         <form onSubmit={handleSubmit} style={{ marginBottom: 24 }}>
@@ -93,7 +108,7 @@ export default function Profile() {
           </Paper>
         ))}
         <Divider sx={{ my: 2 }} />
-        <Typography variant="h6">Timeline (Posts from people you follow)</Typography>
+        <Typography variant="h6">Timeline (Posts from devs)</Typography>
         {timeline.length === 0 && <Typography>No posts yet. Follow users to see their posts.</Typography>}
         {timeline.map((post) => (
           <Paper key={post._id} sx={{ p: 2, my: 1 }}>
@@ -103,7 +118,7 @@ export default function Profile() {
           </Paper>
         ))}
         <Divider sx={{ my: 2 }} />
-        <Typography variant="h6">Suggested Developers to Follow</Typography>
+        <Typography variant="h6">Developers you may know</Typography>
         {suggested.map(user => (
           <Paper key={user._id} sx={{ p: 2, my: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box>

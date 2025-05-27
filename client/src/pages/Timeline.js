@@ -91,7 +91,7 @@ export default function Timeline() {
           </Paper>
         ))}
         <Divider sx={{ my: 2 }} />
-        <Typography variant="h6">Suggested Developers to Follow</Typography>
+        <Typography variant="h6">Developers you may know</Typography>
         {suggested.map(user => (
           <Paper key={user._id} sx={{ p: 2, my: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box>

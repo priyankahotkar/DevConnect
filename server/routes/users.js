@@ -15,7 +15,7 @@ router.get("/:id", async (req, res) => {
       following: user.following
     });
   } catch {
-    res.status(500).json({ error: "Failed to fetch user" });
+    res.status(500).json({ error: "Cannot fetch user" });
   }
 });
 
