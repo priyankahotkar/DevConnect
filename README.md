@@ -2,7 +2,7 @@
 
 DevConnect is a full-stack social media platform that allows users to create profiles, share posts (similar to Twitter), follow/unfollow others, and view a timeline populated by posts from followed users.
 
-**Deployed URL:**  
+**Deployed URL:**  (Login to your vercel account first and then if the backend doesn't start immediately wait for 15 seconds)
 [https://devconnect-lfpvjo7ng-priyankas-projects-3407f629.vercel.app](https://devconnect-lfpvjo7ng-priyankas-projects-3407f629.vercel.app)
 
 ---
