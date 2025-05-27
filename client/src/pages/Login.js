@@ -3,6 +3,8 @@ import axios from "axios";
 import "@mui/material/styles";
 import { Container, Typography, TextField, Button, Paper } from "@mui/material";
 
+const API_URL = "https://devconnect-d46p.onrender.com";
+
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -13,7 +15,8 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, formData);
+      console.log('API URL:', API_URL);
+      const res = await axios.post(`${API_URL}/api/auth/login`, formData);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("userId", res.data.userId);
       alert("Login successful");

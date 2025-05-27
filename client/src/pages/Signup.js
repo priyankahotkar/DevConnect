@@ -3,6 +3,8 @@ import axios from "axios";
 import "@mui/material/styles";
 import { Container, Typography, TextField, Button, Paper, Link as MuiLink } from "@mui/material";
 
+const API_URL = "https://devconnect-d46p.onrender.com";
+
 export default function Signup() {
   const [formData, setFormData] = useState({
     name: "", email: "", password: "", bio: ""
@@ -23,7 +25,7 @@ export default function Signup() {
       return;
     }
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`, formData);
+      const res = await axios.post(`${API_URL}/api/auth/signup`, formData);
       alert("Registered successfully!");
       window.location.href = "/login";
     } catch (err) {
