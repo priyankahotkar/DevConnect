@@ -5,9 +5,10 @@ const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
+// Middleware for JWT
 function auth(req, res, next) {
   const token = req.headers["authorization"]?.split(" ")[1];
-  if (!token) return res.status(401).json({ error: "No token" });
+  if (!token) return res.status(401).json({ error: "No token provided" });
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = decoded.id;
@@ -17,21 +18,21 @@ function auth(req, res, next) {
   }
 }
 
-// Follow a dev
+// Follow a user
 router.post("/follow/:id", auth, async (req, res) => {
   const userId = req.userId;
   const followId = req.params.id;
-  if (userId === followId) return res.status(400).json({ error: "Sorry! you can not follow yourself." });
+  if (userId === followId) return res.status(400).json({ error: "Cannot follow yourself" });
   try {
     await User.findByIdAndUpdate(userId, { $addToSet: { following: followId } });
     await User.findByIdAndUpdate(followId, { $addToSet: { followers: userId } });
     res.json({ message: "Followed user" });
   } catch {
-    res.status(400).json({ error: "Failed to follow developer" });
+    res.status(400).json({ error: "Failed to follow user" });
   }
 });
 
-// Unfollow a dev
+// Unfollow a user
 router.post("/unfollow/:id", auth, async (req, res) => {
   const userId = req.userId;
   const unfollowId = req.params.id;
@@ -39,30 +40,30 @@ router.post("/unfollow/:id", auth, async (req, res) => {
   try {
     await User.findByIdAndUpdate(userId, { $pull: { following: unfollowId } });
     await User.findByIdAndUpdate(unfollowId, { $pull: { followers: userId } });
-    res.json({ message: "Unfollowed" });
+    res.json({ message: "Unfollowed user" });
   } catch {
-    res.status(400).json({ error: "Failed to unfollow developer" });
+    res.status(400).json({ error: "Failed to unfollow user" });
   }
 });
 
-// Timeline posts
+// posts from followed users
 router.get("/timeline", auth, async (req, res) => {
   try {
     const user = await User.findById(req.userId);
     const posts = await Post.find({ userId: { $in: user.following } }).sort({ timestamp: -1 }).populate("userId", "name");
     res.json(posts);
   } catch {
-    res.status(500).json({ error: "Cannot fetch timeline" });
+    res.status(500).json({ error: "Failed to fetch timeline" });
   }
 });
 
-// Explore users 
+// Explore users
 router.get("/explore", auth, async (req, res) => {
   try {
     const users = await User.find({ _id: { $ne: req.userId } }, "_id name bio");
     res.json(users);
   } catch {
-    res.status(500).json({ error: "Cannot fetch users" });
+    res.status(500).json({ error: "Failed to fetch users" });
   }
 });
 
