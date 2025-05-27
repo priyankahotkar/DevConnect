@@ -23,7 +23,7 @@ export default function Signup() {
       return;
     }
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", formData);
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`, formData);
       alert("Registered successfully!");
       window.location.href = "/login";
     } catch (err) {

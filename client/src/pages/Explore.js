@@ -11,13 +11,13 @@ export default function Explore() {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const res = await axios.get("http://localhost:5000/api/social/explore", {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/social/explore`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers(res.data);
     };
     const fetchMe = async () => {
-      const res = await axios.get(`http://localhost:5000/api/users/${myId}`);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${myId}`);
       setFollowing(res.data.following || []);
     };
     fetchUsers();
@@ -25,27 +25,27 @@ export default function Explore() {
   }, []);
 
   const handleFollow = async (id) => {
-    await axios.post(`http://localhost:5000/api/social/follow/${id}`, {}, {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/social/follow/${id}`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setFollowing([...following, id]);
-    const res = await axios.get("http://localhost:5000/api/social/explore", {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/social/explore`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setUsers(res.data);
-    const me = await axios.get(`http://localhost:5000/api/users/${myId}`);
+    const me = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${myId}`);
     setFollowing(me.data.following || []);
   };
   const handleUnfollow = async (id) => {
-    await axios.post(`http://localhost:5000/api/social/unfollow/${id}`, {}, {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/social/unfollow/${id}`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setFollowing(following.filter(f => f !== id));
-    const res = await axios.get("http://localhost:5000/api/social/explore", {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/social/explore`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setUsers(res.data);
-    const me = await axios.get(`http://localhost:5000/api/users/${myId}`);
+    const me = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${myId}`);
     setFollowing(me.data.following || []);
   };
 

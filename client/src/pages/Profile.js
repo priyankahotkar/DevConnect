@@ -13,26 +13,26 @@ export default function Profile() {
   const [following, setFollowing] = useState([]);
 
   const fetchPosts = async () => {
-    const res = await axios.get(`http://localhost:5000/api/posts/user/${userId}`);
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/posts/user/${userId}`);
     setPosts(res.data);
   };
 
   const fetchTimeline = async () => {
-    const res = await axios.get("http://localhost:5000/api/social/timeline", {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/social/timeline`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setTimeline(res.data);
   };
 
   const fetchSuggested = async () => {
-    const res = await axios.get("http://localhost:5000/api/social/explore", {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/social/explore`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setSuggested(res.data);
   };
 
   const fetchMe = async () => {
-    const res = await axios.get(`http://localhost:5000/api/users/${userId}`);
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`);
     setFollowing(res.data.following || []);
   };
 
@@ -45,7 +45,7 @@ export default function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:5000/api/posts", { text: newPost, userId }, {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/posts`, { text: newPost, userId }, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setNewPost("");
@@ -54,7 +54,7 @@ export default function Profile() {
   };
 
   const handleFollow = async (id) => {
-    await axios.post(`http://localhost:5000/api/social/follow/${id}`, {}, {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/social/follow/${id}`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     });
     fetchSuggested();
@@ -62,7 +62,7 @@ export default function Profile() {
     fetchTimeline();
   };
   const handleUnfollow = async (id) => {
-    await axios.post(`http://localhost:5000/api/social/unfollow/${id}`, {}, {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/social/unfollow/${id}`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     });
     fetchSuggested();
